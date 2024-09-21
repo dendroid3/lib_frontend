@@ -73,15 +73,9 @@ const handleRemoveFromCart = (book) => {
 }
 
 const handlePurchase = async (user) => {
-  const data = []
-
-  books_in_cart.forEach(book => {
-    let book_data = {
-      id: book.id,
-      quantity: book.quantity
-    }
-    data.push(book_data)
-  });
+  const data = {
+    "books_array": books_in_cart
+  }
 
   const phone_number = prompt("Enter the phone number that you will use to pay for MPesa")
 
@@ -93,11 +87,12 @@ const handlePurchase = async (user) => {
     return
   }
 
-  const response = await axios.post(`https://lib-backend-hmwd.onrender.com/books/purchase/${user.uid}/+254${truncated_phone_number}/${totalCostOfBooksInCart()}`, data)
-  console.log(response)
+  // data.books_array = books_in_cart
+  console.log("data")
+  console.log(data)
 
-  console.log(user)
-  console.log(`https://lib-backend-hmwd.onrender.com/books/purchase/${user.uid}/+254${truncated_phone_number}/${totalCostOfBooksInCart()}`)
+  const response = await axios.post(`https://lib-backend-hmwd.onrender.com/books/purchase/${user.uid}/+254${truncated_phone_number}/${totalCostOfBooksInCart()}`, data)
+  alert(response.data.ResponseDescription)
 }
 
 const totalCostOfBooksInCart = () => {

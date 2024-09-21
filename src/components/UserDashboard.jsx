@@ -55,21 +55,12 @@ const UserDashboard = () => {
           </li>
           <li>
             <Link 
-              to="/user/purchased-books" 
+              to="/user/book-receipts" 
               className="block text-center text-lg text-white bg-yellow-600 hover:bg-yellow-700 rounded-lg py-2 transition duration-200"
             >
-              Purchased Books
+              Receipts
             </Link>
           </li>
-          <li>
-            <Link 
-              to="/user/books-on-sale" 
-              className="block text-center text-lg text-white bg-red-600 hover:bg-red-700 rounded-lg py-2 transition duration-200"
-            >
-              Books on Sale
-            </Link>
-          </li>
-          {/* Logout Button */}
           <li>
             <button
               onClick={handleLogout}

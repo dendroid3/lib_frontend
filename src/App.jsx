@@ -13,6 +13,7 @@ import Books from './components/Books';
 import UserDashboard from './components/UserDashboard';
 import BooksOnSale from './components/BooksOnSale';
 import RemoveBook from './components/RemoveBook';
+import ViewReceipts from './components/ViewReceipts'
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
         <Route path="/user/borrowed-books" element={<BorrowedBooks />} />
         <Route path="/user/purchased-books" element={<PurchasedBooks />} />
         <Route path="/user/books-on-sale" element={<BooksOnSale />} />
+        <Route path="/user/book-receipts" element={<ViewReceipts />} />
       </Routes>
     </Router>
   );
