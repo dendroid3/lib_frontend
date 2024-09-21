@@ -24,6 +24,13 @@ const BorrowedBooks = () => {
   useEffect(() => {
     const fetchBorrowedBooks = async () => {
       try {
+        
+        if(!user.uid){
+          setTimeout(() => {
+            fetchBorrowedBooks()
+            return
+          }, 3000);
+        }
         const response = await axios.get(`https://lib-backend-hmwd.onrender.com/user/get_borrowed_books/${user.uid}`)
         const data = await response.data;
         setBorrowedBooks(data);
