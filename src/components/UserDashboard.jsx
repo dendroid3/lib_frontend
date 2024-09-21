@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { auth } from '../config/firebase'; // Ensure you have Firebase initialized
 import { signOut, onAuthStateChanged } from 'firebase/auth';
-// import {  } from 'firebase/auth';
+
 const UserDashboard = () => {
   const navigate = useNavigate(); // Used for navigating after logout
 

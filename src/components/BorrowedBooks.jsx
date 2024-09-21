@@ -1,39 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import NavBar from './NavBar';
 import { auth } from '../config/firebase'; // Ensure you have Firebase initialized
-import { onAuthStateChanged } from 'firebase/auth';
+import {  onAuthStateChanged } from 'firebase/auth';
 import axios from 'axios';
 
 const BorrowedBooks = () => {
-  const [borrowedBooks, setBorrowedBooks] = useState([]);
-  const [user, setUser] = useState('');
+  const [borrowedBooks, setBorrowedBooks] = useState('');
+
+  const [user, setUser] = useState('no_user');
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, display user
-        setUser(user);
+    const unsubscribe = onAuthStateChanged(auth, (auth_user) => {
+      if(user != 'no_user') {
+        return
+      }
+      if (auth_user) {
+        // User is signed in, display username
+        setUser(auth_user || 'No username');
+        return
       } else {
-        // No user is signed in
-        setUser('Guest');
+        return () => unsubscribe();
       }
     });
-    return () => unsubscribe();
   })
-  
-  useEffect(() => {
+
     const fetchBorrowedBooks = async () => {
       try {
-        
-        console.log("user")
-        console.log(user)
-        if(!user.uid){
-          setTimeout(() => {
-            console.log("user in !")
-            console.log(user)
-            // fetchBorrowedBooks()
-            return
-          }, 3000);
+        if(!user.uid || borrowedBooks[0]){
+          return
         }
         const response = await axios.get(`https://lib-backend-hmwd.onrender.com/user/get_borrowed_books/${user.uid}`)
         const data = await response.data;
@@ -43,8 +37,9 @@ const BorrowedBooks = () => {
       }
     };
 
-    fetchBorrowedBooks();
-  }, []);
+    setTimeout(() => {
+      fetchBorrowedBooks();
+    }, 5000);
 
   return (
     <div>
@@ -62,7 +57,7 @@ const BorrowedBooks = () => {
             </tr>
           </thead>
           <tbody>
-            {borrowedBooks.length > 0 ? (
+            {borrowedBooks[0] ? (
               borrowedBooks.map((book) => (
                 <tr key={book.id}>
                   <td className="border p-2">{book.book.title}</td>
