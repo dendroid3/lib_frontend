@@ -3,6 +3,8 @@ import { auth } from '../config/firebase';
 import { createUserWithEmailAndPassword,updateProfile } from 'firebase/auth';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios'
+import Cookies from 'js-cookie';
+
 
 const UsersignUp= () => {
   const [username, setUsername] = useState('');
@@ -11,6 +13,7 @@ const UsersignUp= () => {
   const [role, setRole] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate(); 
+
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -33,6 +36,8 @@ const UsersignUp= () => {
         role: 1
       }
       const local_user = await axios.post('https://lib-backend-hmwd.onrender.com/register', local_user_data)
+      Cookies.set('user_role', 1, { expires: 7 });
+
       setRole(1)
       navigate('/user');
     } catch (error) {

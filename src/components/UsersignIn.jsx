@@ -2,11 +2,15 @@ import { useState } from 'react';
 import { auth } from '../config/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const UsersignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [role, setRole] = useState('');
+
   const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
@@ -16,7 +20,16 @@ const UsersignIn = () => {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       // Signed in successfully
       console.log('User signed in:', userCredential.user);
-      navigate('/user'); // navigates to the user dashboard
+      
+      const local_user = await axios.get(`https://lib-backend-hmwd.onrender.com/sign_in/${userCredential.user.uid}`)
+      console.log(local_user)
+      setRole(local_user.data.role)
+      Cookies.set('user_role', local_user.data.role, { expires: 7 });
+      if(local_user.data.role == 1){
+        navigate('/user'); // navigates to the user dashboard
+      } else if(local_user.data.role == 2) {
+        navigate('/admin'); // navigates to the user dashboard
+      }
     } catch (error) {
       // Handle sign-in error
       console.error('Error signing in:', error.message);

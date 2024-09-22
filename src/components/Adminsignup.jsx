@@ -3,6 +3,8 @@ import { auth } from '../config/firebase';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
+import Cookies from 'js-cookie';
+
 
 const AdminsignUp= () => {
   const [username, setUsername] = useState('');
@@ -33,6 +35,8 @@ const AdminsignUp= () => {
         role: 2
       }
       const local_user = await axios.post('https://lib-backend-hmwd.onrender.com/register', local_user_data)
+      Cookies.set('user_role', 2, { expires: 7 });
+
       setRole(2)
       navigate('/admin'); // directs to the admin dashboard. 
 

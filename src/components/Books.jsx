@@ -90,9 +90,6 @@ const handlePurchase = async (user) => {
   }
 
   // data.books_array = books_in_cart
-  console.log("data")
-  console.log(data)
-
   const response = await axios.post(`https://lib-backend-hmwd.onrender.com/books/purchase/${user.uid}/+254${truncated_phone_number}/${totalCostOfBooksInCart()}`, data)
   alert(response.data.ResponseDescription)
 }
