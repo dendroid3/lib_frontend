@@ -42,7 +42,7 @@ const AdminDashboard = () => {
               <Link to="/admin/borrowed-books" className="text-blue-500 hover:underline">View Borrowed Books</Link>
             </li>
             <li>
-              <Link to="/admin/purchased-books" className="text-blue-500 hover:underline">View Purchased Books</Link>
+              <Link to="/admin/purchased-books" className="text-blue-500 hover:underline">View Purchases</Link>
             </li>
           </ul>
         </div>

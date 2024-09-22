@@ -104,7 +104,7 @@ const ViewReceipts= () => {
                         ))
                         ) : (
                         <tr>
-                            <td colSpan="4" className="border p-2 text-center">No borrowed books found.</td>
+                            <td colSpan="6" className="border p-2 text-center">No receipts found.</td>
                         </tr>
                         )}
                     </tbody>

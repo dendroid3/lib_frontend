@@ -44,7 +44,9 @@ const RemoveBook = () => {
             </tr>
           </thead>
           <tbody>
-            {books.map((book) => (
+          {books[0] ? (
+
+            books.map((book) => (
               <tr key={book.id}>
                 <td className="border p-2">{book.title}</td>
                 <td className="border p-2">{book.author}</td>
@@ -54,7 +56,13 @@ const RemoveBook = () => {
                   <button onClick={() => handleRemoveBook(book)} className="bg-blue-500 text-white p-1 mx-1">Delete</button>
                 </td>
               </tr>
-            ))}
+            ))
+
+          ) : (
+            <tr>
+                <td colSpan="6" className="border p-2 text-center">No books found.</td>
+            </tr>
+          )}
           </tbody>
         </table>
       </div>

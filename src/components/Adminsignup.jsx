@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { auth } from '../config/firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 const AdminsignUp= () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('');
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
@@ -19,6 +21,19 @@ const AdminsignUp= () => {
       // User signed up
       const user = userCredential.user;
       console.log('User signed up:', user);
+
+      console.log(user)
+      await updateProfile(user, { displayName: username });
+
+      // Record user locally
+      const local_user_data = {
+        id: user.uid,
+        username: username,
+        email: user.email,
+        role: 2
+      }
+      const local_user = await axios.post('https://lib-backend-hmwd.onrender.com/register', local_user_data)
+      setRole(2)
       navigate('/admin'); // directs to the admin dashboard. 
 
       // Optionally, store the username in your database here

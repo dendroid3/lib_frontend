@@ -34,9 +34,6 @@ const UsersignUp= () => {
       }
       const local_user = await axios.post('https://lib-backend-hmwd.onrender.com/register', local_user_data)
       setRole(1)
-
-      console.log("local_user")
-      console.log(local_user)
       navigate('/user');
     } catch (error) {
       console.error('Error signing up:', error);

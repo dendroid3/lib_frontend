@@ -3,6 +3,8 @@ import { auth } from '../config/firebase'; // Ensure you have Firebase initializ
 import { onAuthStateChanged } from 'firebase/auth';
 import axios from 'axios';
 
+import NavBar from './NavBar';
+
 const Books = () => {
   const [books, setBooks] = useState([]);
   const [books_in_cart, setBooksInCart] = useState([]);
@@ -108,80 +110,83 @@ const toggleCartVisibility = () => {
 };
 
   return (
-    <div className="p-5 bg-[url('/images/library2.jpg')] bg-cover bg-center min-h-screen">
-      <section className="grid">
-        <div className="bg-blue-300 content-center m-2 justify-self-end p-4 relative">
-          <div className="cursor-pointer" onClick={toggleCartVisibility}>
-            {isCartVisible ? 'Close' : 'Open'}
-            {` Cart (${books_in_cart.length})`}
-          </div>
-          {isCartVisible &&
-          <div className="bg-white absolute right-0 mt-4">
-            <table>
-              <thead>
-                <th className="border p-2">Title</th>
-                <th className="border p-2">Author</th>
-                <th className="border p-2">Price</th>
-                <th className="border p-2">Quantity</th>
-                <th className="border p-2">Action</th>
-                <th className="border p-2">Total</th>
-              </thead>
-              <tbody>
-                {books_in_cart.map((book) => (
-                  <tr key={book.id}>
-                    <td className="border p-2">{book.title}</td>
-                    <td className="border p-2">{book.author}</td>
-                    <td className="border p-2">{book.price}</td>
-                    <td className="border p-2">{book.quantity}</td>
-                    <td className="border p-2">
-                      <button onClick={() => handleRemoveFromCart(book)} className="bg-blue-500 text-white p-1 mx-1">Remove</button>
-                    </td>
-                    <td className="border p-2">{book.price * book.quantity}</td>
+    <div>
+      <NavBar />
+      <div className="p-5 bg-[url('/images/library2.jpg')] bg-cover bg-center min-h-screen">
+        <section className="grid">
+          <div className="bg-blue-300 content-center m-2 justify-self-end p-4 relative">
+            <div className="cursor-pointer" onClick={toggleCartVisibility}>
+              {isCartVisible ? 'Close' : 'Open'}
+              {` Cart (${books_in_cart.length})`}
+            </div>
+            {isCartVisible &&
+            <div className="bg-white absolute right-0 mt-4">
+              <table>
+                <thead>
+                  <th className="border p-2">Title</th>
+                  <th className="border p-2">Author</th>
+                  <th className="border p-2">Price</th>
+                  <th className="border p-2">Quantity</th>
+                  <th className="border p-2">Action</th>
+                  <th className="border p-2">Total</th>
+                </thead>
+                <tbody>
+                  {books_in_cart.map((book) => (
+                    <tr key={book.id}>
+                      <td className="border p-2">{book.title}</td>
+                      <td className="border p-2">{book.author}</td>
+                      <td className="border p-2">{book.price}</td>
+                      <td className="border p-2">{book.quantity}</td>
+                      <td className="border p-2">
+                        <button onClick={() => handleRemoveFromCart(book)} className="bg-blue-500 text-white p-1 mx-1">Remove</button>
+                      </td>
+                      <td className="border p-2">{book.price * book.quantity}</td>
 
+                    </tr>
+                  ))}
+                  
+                  <tr>
+                    <td className="border p-2 font-bold">{"Total"}</td>
+                    <td className="border p-2">{}</td>
+                    <td className="border p-2">{}</td>
+                    <td className="border p-2">{}</td>
+                    <td className="border p-2">{}</td>
+                    <td className="border p-2 font-bold">{totalCostOfBooksInCart()}</td>
                   </tr>
-                ))}
-                
-                <tr>
-                  <td className="border p-2 font-bold">{"Total"}</td>
-                  <td className="border p-2">{}</td>
-                  <td className="border p-2">{}</td>
-                  <td className="border p-2">{}</td>
-                  <td className="border p-2">{}</td>
-                  <td className="border p-2 font-bold">{totalCostOfBooksInCart()}</td>
-                </tr>
-              </tbody>
-            </table>
-            <div className="flex justify-center p-4">
-              <button onClick={() => handleEmptyCart()} className="bg-blue-500 text-white p-1 mx-1">Empty Cart</button>
-              <button onClick={() => handlePurchase(user)} className="bg-blue-500 text-white p-1 mx-1">Checkout</button>
-            </div>  
-          </div>}
-        </div>
-        <h2 className="text-3xl font-bold text-white">Available Books</h2>
-      </section>
-      <table className="w-24 min-w-full  text-black border-separate border-spacing-2 border-slate-300 bg-slate-300">
-        <thead>
-          <tr>
-            <th className="border p-2">Title</th>
-            <th className="border p-2">Author</th>
-            <th className="border p-2">Price</th>
-            <th className="border p-2">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {books.map((book) => (
-            <tr key={book.id}>
-              <td className="border p-2">{book.title}</td>
-              <td className="border p-2">{book.author}</td>
-              <td className="border p-2">{book.price}</td>
-              <td className="border p-2 text-center">
-                <button onClick={() => handleBorrow(book)} className="bg-blue-500 text-white p-1 mx-1">Borrow</button>
-                <button onClick={() => handleAddToCart(book)} className="bg-blue-500 text-white p-1 mx-1">Add to Cart</button>
-              </td>
+                </tbody>
+              </table>
+              <div className="flex justify-center p-4">
+                <button onClick={() => handleEmptyCart()} className="bg-blue-500 text-white p-1 mx-1">Empty Cart</button>
+                <button onClick={() => handlePurchase(user)} className="bg-blue-500 text-white p-1 mx-1">Checkout</button>
+              </div>  
+            </div>}
+          </div>
+          <h2 className="text-3xl font-bold text-white">Available Books</h2>
+        </section>
+        <table className="w-24 min-w-full  text-black border-separate border-spacing-2 border-slate-300 bg-slate-300">
+          <thead>
+            <tr>
+              <th className="border p-2">Title</th>
+              <th className="border p-2">Author</th>
+              <th className="border p-2">Price</th>
+              <th className="border p-2">Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {books.map((book) => (
+              <tr key={book.id}>
+                <td className="border p-2">{book.title}</td>
+                <td className="border p-2">{book.author}</td>
+                <td className="border p-2">{book.price}</td>
+                <td className="border p-2 text-center">
+                  <button onClick={() => handleBorrow(book)} className="bg-blue-500 text-white p-1 mx-1">Borrow</button>
+                  <button onClick={() => handleAddToCart(book)} className="bg-blue-500 text-white p-1 mx-1">Add to Cart</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

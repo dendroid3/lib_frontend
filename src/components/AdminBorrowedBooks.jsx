@@ -4,20 +4,34 @@ import axios from 'axios';
 
 const AdminBorrowedBooks = () => {
   const [borrowedBooks, setBorrowedBooks] = useState([]);
+  
+  const fetchBorrowedBooks = async () => {
+    try {
+      const response = await axios.get(`https://lib-backend-hmwd.onrender.com/admin/get_borrowed_books`)
+      const data = await response.data;
+      setBorrowedBooks(data);
+    } catch (error) {
+      console.error('Failed to fetch borrowed books:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchBorrowedBooks = async () => {
-      try {
-        const response = await axios.get(`https://lib-backend-hmwd.onrender.com/admin/get_borrowed_books`)
-        const data = await response.data;
-        setBorrowedBooks(data);
-      } catch (error) {
-        console.error('Failed to fetch borrowed books:', error);
-      }
-    };
-
     fetchBorrowedBooks();
   }, []);
+
+  const handleBookReturned = async (book) => {
+    if(book.status == 2){
+      return
+    }
+    try {
+      const confirmation = confirm(`You are`)
+      const response = await axios.get(`https://lib-backend-hmwd.onrender.com/book/mark_returned/${book.id}`)
+      alert(response.data)
+      fetchBorrowedBooks()
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div>
@@ -40,7 +54,7 @@ const AdminBorrowedBooks = () => {
               borrowedBooks.map((book) => (
                 <tr key={book.id}>
                   <td className="border p-2">{book.book.title}</td>
-                  <td className="border p-2">{book}</td>
+                  <td className="border p-2">{book.book.author}</td>
                   <td className="border p-2">{book.borrowed_date}</td>
                   <td className="border p-2">{book.return_date}</td>
                   <td className="border p-2">{book.status == 1 ? "Not Returned" : "Returned"}</td>
@@ -51,7 +65,7 @@ const AdminBorrowedBooks = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="4" className="border p-2 text-center">No borrowed books found.</td>
+                <td colSpan="5" className="border p-2 text-center">No borrowed books found.</td>
               </tr>
             )}
           </tbody>
